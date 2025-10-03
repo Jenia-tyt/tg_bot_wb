@@ -1,4 +1,4 @@
-package inno.tech.extension
+package com.jeniatyt.extension
 
 import org.telegram.telegrambots.meta.api.objects.Update
 import java.util.Optional

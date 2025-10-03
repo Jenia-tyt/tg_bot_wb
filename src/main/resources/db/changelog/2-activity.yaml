@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2.action
+      author: jeniatyt
+      changes:
+        - createTable:
+            tableName: activity
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: command
+                  type: varchar(50)
+                  constraints:
+                    unique: false
+                    nullable: true

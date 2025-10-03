@@ -1,0 +1,68 @@
+version: '3.9'
+services:
+  postgres-test:
+    image: 'postgres:18.0'
+    container_name: postgres-test
+    environment:
+      POSTGRES_DB: '${PG_BD}'
+      POSTGRES_USER: '${PG_USER}'
+      POSTGRES_PASSWORD: '${PG_PASSWORD}'
+    ports:
+      - '8432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql'
+      - './initdb:/docker-entrypoint-initdb.d'
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -d ${PG_BD} -U ${PG_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - wb_test
+    logging:
+      options:
+        max-file: "2"
+        max-size: "10m"
+
+  tg-bot-wb-test:
+    image: ${TELEGRAM_NAME}:latest
+    container_name: ${TELEGRAM_NAME}
+    restart: always
+    depends_on:
+      - postgres-test
+    environment:
+      HOST: postgres-test:5432
+      DB_NAME: '${PG_BD}'
+      DB_USER: '${PG_USER}'
+      DB_PASSWORD: '${PG_PASSWORD}'
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      LOGGING_LEVEL_ROOT: INFO
+      SERVER_PORT: 9091
+    ports:
+      - "9091:9091"
+    healthcheck:
+      test: "curl --fail --silent http://tg-bot-wb-test:9091/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    networks:
+      - wb_test
+    logging:
+      options:
+        max-file: "2"
+        max-size: "10m"
+
+networks:
+  wb_test:
+    name: wb_test
+
+volumes:
+  pgdata:

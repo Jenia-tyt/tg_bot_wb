@@ -1,5 +1,6 @@
 package com.jeniatyt
 
+import com.jeniatyt.properties.TelegramProperties
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -9,8 +10,6 @@ import org.telegram.telegrambots.util.WebhookUtils
 
 /**
  * Компонент, предоставляющий доступ к Telegram Bot API
- *
- * @param telegramProperties конфигурации подключения к Telegram Bot API
  */
 @Component
 class TelegramBotApi(

@@ -1,11 +1,23 @@
 server:
-  port: ${SERVER_PORT:9090}
+  port: ${SERVER_PORT:8080}
 
 management:
   endpoints:
     web:
       exposure:
         include: health
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${HOST:localhost:8432}/${DB_NAME:wb_test}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:admin}
+  jpa:
+    properties:
+      hibernate.globally_quoted_identifiers: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 telegram:
   name: ${TELEGRAM_NAME}
@@ -14,3 +26,6 @@ telegram:
 logging:
   level:
     root: ${LOGGING_LEVEL_ROOT:INFO}
+
+chat:
+  support_chat_id: ${CHAT_SUPPORT_ID:275626393}

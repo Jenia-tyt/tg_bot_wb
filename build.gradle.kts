@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.Test
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,8 +10,11 @@ plugins {
 }
 
 group = "com.jeniatyt"
-java.sourceCompatibility = JavaVersion.VERSION_21
-java.targetCompatibility = JavaVersion.VERSION_21
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 repositories {
     mavenCentral()
@@ -20,6 +25,7 @@ val actuator = "3.4.0"
 val web = "3.4.0"
 val telegramSpring = "6.9.7.1"
 val microutils = "3.0.5"
+val hypersistence = "3.11.0"
 
 dependencies {
     //core
@@ -27,6 +33,12 @@ dependencies {
     implementation("org.telegram:telegrambots-spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator:${actuator}")
     implementation("org.springframework.boot:spring-boot-starter-web:${web}")
+
+    //database
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.liquibase:liquibase-core")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("io.hypersistence:hypersistence-utils-hibernate-63:${hypersistence}")
 
     //kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")

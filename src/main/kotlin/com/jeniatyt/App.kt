@@ -18,11 +18,9 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 @SpringBootApplication
 @EnableScheduling
 @ConfigurationPropertiesScan
-class InnotechRandomCoffeeApplication(
-    private val botApp: TelegramBotApi
-
-) {
+class TgWbBot(private val botApp: TelegramBotApi) {
     private val log = KotlinLogging.logger {}
+
 
     @EventListener(ApplicationReadyEvent::class)
     fun registerBot(event: ApplicationReadyEvent) {
@@ -41,6 +39,6 @@ class InnotechRandomCoffeeApplication(
 }
 
 fun main(args: Array<String>) {
-    runApplication<InnotechRandomCoffeeApplication>(*args)
+    runApplication<TgWbBot>(*args)
 }
 

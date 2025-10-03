@@ -1,4 +1,4 @@
-package com.jeniatyt
+package com.jeniatyt.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

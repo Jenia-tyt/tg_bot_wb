@@ -1,5 +1,6 @@
 package com.jeniatyt
 
+import com.jeniatyt.properties.TelegramProperties
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.DefaultAbsSender
 import org.telegram.telegrambots.bots.DefaultBotOptions

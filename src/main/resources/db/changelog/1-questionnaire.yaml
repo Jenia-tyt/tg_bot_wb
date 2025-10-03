@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.questionnaire
+      author: jeniatyt
+      changes:
+        - createTable:
+            tableName: questionnaire
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: data
+                  type: jsonb
+                  constraints:
+                    unique: false
+                    nullable: true
