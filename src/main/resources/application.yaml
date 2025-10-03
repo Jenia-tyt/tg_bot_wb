@@ -1,0 +1,16 @@
+server:
+  port: ${SERVER_PORT:9090}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+telegram:
+  name: ${TELEGRAM_NAME}
+  token: ${TELEGRAM_TOKEN}
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
