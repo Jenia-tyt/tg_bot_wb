@@ -77,7 +77,7 @@ jobs:
           rm ${{ vars.DOCKER_COMPOSE_PATH }}/images/*
 
           echo ЗАПУСКАЕМ СЕРВИС
-          TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' TELEGRAM_NAME='${{ vars.TELEGRAM_NAME }}' PG_BD='${{ secrets.PG_BD }}' PG_USER='${{ secrets.PG_USER }}' PG_PASSWORD='${{ secrets.PG_PASSWORD }}' docker-compose -f ${{ vars.DOCKER_COMPOSE_PATH }}/docker-compose.yml up -d
+          TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' TELEGRAM_NAME='${{ vars.TELEGRAM_NAME }}' PG_BD='${{ secrets.PG_BD }}' PG_USER='${{ secrets.PG_USER }}' PG_PASSWORD='${{ secrets.PG_PASSWORD }}' CHAT_SUPPORT_ID='${{ secrets.CHAT_SUPPORT_ID }}' docker-compose -f ${{ vars.DOCKER_COMPOSE_PATH }}/docker-compose.yml up -d
 
           echo "ПРОВЕРЯЕМ ЛОГИ С ИНТЕРВАЛОМ В 15 сек ЕСЛИ УСПЕХА НЕТ В ТЕЧЕНИИ 1 минуты КИДАЕМ ОШИБКУ"
           i=0

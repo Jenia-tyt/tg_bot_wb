@@ -39,6 +39,7 @@ services:
       TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
       LOGGING_LEVEL_ROOT: INFO
       SERVER_PORT: 9091
+      CHAT_SUPPORT_ID: '${CHAT_SUPPORT_ID}'
     ports:
       - "9091:9091"
     healthcheck:
