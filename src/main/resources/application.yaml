@@ -10,7 +10,7 @@ management:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${HOST:localhost:8432}/${DB_NAME:wb_test}
+    url: jdbc:postgresql://${HOST:localhost:7432}/${DB_NAME:wb_test}
     username: ${DB_USER:admin}
     password: ${DB_PASSWORD:admin}
   jpa:

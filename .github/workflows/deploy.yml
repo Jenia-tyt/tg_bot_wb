@@ -2,12 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "prod" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: TG_BOT_WB_TEST
+    environment: TG_BOT_WB_PROD
     steps:
     - uses: actions/checkout@v4
 
@@ -68,7 +68,7 @@ jobs:
           rmdir ${{ vars.DOCKER_COMPOSE_PATH }}/deploy
 
           echo УДАЛЯЕМ СТАРЫЙ ОБРАЗ
-          docker rmi $(docker images "${{ vars.TELEGRAM_NAME }}")
+          docker rmi $(docker images "${{ vars.DOCKER_IMAGE_NAME }}")
 
           echo ЗАГРУЖАЕМ НОВЫЙ ОБРАЗ
           docker load -i ${{ vars.DOCKER_COMPOSE_PATH }}/images/wb_bot.tar
@@ -77,12 +77,12 @@ jobs:
           rm ${{ vars.DOCKER_COMPOSE_PATH }}/images/*
 
           echo ЗАПУСКАЕМ СЕРВИС
-          TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' TELEGRAM_NAME='${{ vars.TELEGRAM_NAME }}' PG_BD='${{ secrets.PG_BD }}' PG_USER='${{ secrets.PG_USER }}' PG_PASSWORD='${{ secrets.PG_PASSWORD }}' CHAT_SUPPORT_ID='${{ secrets.CHAT_SUPPORT_ID }}' docker-compose -f ${{ vars.DOCKER_COMPOSE_PATH }}/docker-compose.yml up -d
+          TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' TELEGRAM_NAME='${{ vars.TELEGRAM_NAME }}' PG_BD='${{ secrets.PG_BD }}' PG_USER='${{ secrets.PG_USER }}' PG_PASSWORD='${{ secrets.PG_PASSWORD }}' CHAT_SUPPORT_ID='${{ secrets.CHAT_SUPPORT_ID }}' DOCKER_IMAGE_NAME='${{ vars.DOCKER_IMAGE_NAME }}' docker-compose -f ${{ vars.DOCKER_COMPOSE_PATH }}/docker-compose.yml up -d
 
           echo "ПРОВЕРЯЕМ ЛОГИ С ИНТЕРВАЛОМ В 15 сек ЕСЛИ УСПЕХА НЕТ В ТЕЧЕНИИ 1 минуты КИДАЕМ ОШИБКУ"
           i=0
           while [[ $i -le 3 ]]; do
-          RESULT=$(docker logs '${{ vars.TELEGRAM_NAME }}')
+          RESULT=$(docker logs '${{ vars.DOCKER_IMAGE_NAME }}')
           echo "${RESULT}"
           if echo "${RESULT}" | grep -q "THE BOT HAS STARTED"; then
           echo "❤️❤️ВСЕ ПРОШЛО УСПЕШНО❤️❤️"
