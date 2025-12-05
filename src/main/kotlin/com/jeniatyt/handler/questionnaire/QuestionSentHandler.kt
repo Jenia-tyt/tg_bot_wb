@@ -2,7 +2,9 @@ package com.jeniatyt.handler.questionnaire
 
 import com.jeniatyt.command.impl.QuestionnaireCommand
 import com.jeniatyt.entity.Activity
+import com.jeniatyt.extension.getChatIdAsString
 import com.jeniatyt.handler.Handler
+import com.jeniatyt.message.Message
 import com.jeniatyt.message.Questionnaire
 import com.jeniatyt.properties.ChatProperties
 import com.jeniatyt.repository.QuestionnaireRepository
@@ -35,7 +37,9 @@ class QuestionSentHandler(
         }
 
         questionnaireRepository.findById(userId).ifPresentOrElse(
-            { questionnaire -> val qData = questionnaire.data
+            { questionnaire ->
+                val qData = questionnaire.data
+
                 messageService.sendMessage(
                     chatProperties.supportChatId,
                     Questionnaire.questionEnd,
@@ -52,9 +56,12 @@ class QuestionSentHandler(
                         qData?.q10 ?: ""
                     )
                 )
+
+                messageService.sendMessage(update.getChatIdAsString(), Questionnaire.question10)
             },
             {
                 log.error { "Сообщение не отправлено, так как не найдена анкета" }
+                messageService.sendMessage(update.getChatIdAsString(), Message.ERROR)
             }
         )
     }

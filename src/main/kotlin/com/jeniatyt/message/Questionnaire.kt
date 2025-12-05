@@ -11,5 +11,6 @@ object Questionnaire : AbstractMessage() {
     val question7: String = loadTemplate("/message/questionnaire/q7.md")
     val question8: String = loadTemplate("/message/questionnaire/q8.md")
     val question9: String = loadTemplate("/message/questionnaire/q9.md")
+    val question10: String = loadTemplate("/message/questionnaire/q10.md")
     val questionEnd: String = loadTemplate("/message/questionnaire/end.md")
 }
