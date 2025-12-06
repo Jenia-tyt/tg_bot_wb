@@ -15,6 +15,7 @@ object Button : AbstractButton() {
     private const val CALL_MANAGER_DESCRIPTION = "Позвать менеджера"
     private const val BACK = "Назад"
     private const val SENT = "Отправить"
+    private const val NEXT = "Оставить поле пустым"
 
     private const val SUPPORT_CHAT = "mosfulfillment"
 
@@ -46,6 +47,19 @@ object Button : AbstractButton() {
     fun stepBack(step: String): InlineKeyboardMarkup = creatButtonsCommand(
         listOf(
             CommandButtonSupplier(BACK, step)
+        )
+    )
+
+    fun stepNext(step: String): InlineKeyboardMarkup = creatButtonsCommand(
+        listOf(
+            CommandButtonSupplier(NEXT, step)
+        )
+    )
+
+    fun baseStep(back: String, next: String): InlineKeyboardMarkup = creatButtonsCommand(
+        listOf(
+            CommandButtonSupplier(BACK, back),
+            CommandButtonSupplier(NEXT, next)
         )
     )
 

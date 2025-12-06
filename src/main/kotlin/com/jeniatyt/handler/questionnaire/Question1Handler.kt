@@ -1,5 +1,6 @@
 package com.jeniatyt.handler.questionnaire
 
+import com.jeniatyt.button.impl.Button
 import com.jeniatyt.command.impl.MainCommand
 import com.jeniatyt.command.impl.QuestionnaireCommand
 import com.jeniatyt.entity.Activity
@@ -34,6 +35,10 @@ class Question1Handler(
             actionRepository.save(activity)
         }
 
-        messageService.sendMessage(update.getChatIdAsString(), Questionnaire.question1)
+        messageService.sendMessageWithKeyboard(
+            update.getChatIdAsString(),
+            Button.stepNext(QuestionnaireCommand.Q1.getCommand()),
+            Questionnaire.question1
+        )
     }
 }

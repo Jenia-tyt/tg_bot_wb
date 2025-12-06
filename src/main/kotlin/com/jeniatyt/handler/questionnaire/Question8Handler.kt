@@ -39,7 +39,7 @@ class Question8Handler(
             return
         }
 
-        val messageText = update.getMessageText()
+        val messageText = getDefaultQuestion(update.getMessageText())
         questionnaireRepository.findById(userId).ifPresentOrElse(
             { questionnaire -> questionnaire.data?.q7 = messageText },
             {
@@ -58,7 +58,7 @@ class Question8Handler(
 
         messageService.sendMessageWithKeyboard(
             update.getChatIdAsString(),
-            Button.stepBack(QuestionnaireCommand.Q6.getCommand()),
+            Button.baseStep(QuestionnaireCommand.Q6.getCommand(), QuestionnaireCommand.Q8.getCommand()),
             Questionnaire.question8
         )
     }

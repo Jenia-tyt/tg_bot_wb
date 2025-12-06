@@ -38,12 +38,12 @@ services:
       DB_PASSWORD: '${PG_PASSWORD}'
       TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
       LOGGING_LEVEL_ROOT: INFO
-      SERVER_PORT: 9091
+      SERVER_PORT: 9092
       CHAT_SUPPORT_ID: '${CHAT_SUPPORT_ID}'
     ports:
-      - "9091:9091"
+      - "9092:9092"
     healthcheck:
-      test: "curl --fail --silent http://tg-bot-wb-test:9091/actuator/health | grep UP || exit 1"
+      test: "curl --fail --silent http://tg-bot-wb-test:9092/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 3s
       retries: 3

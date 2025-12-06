@@ -1,5 +1,6 @@
 package com.jeniatyt.handler.questionnaire
 
+import com.jeniatyt.button.impl.Button
 import com.jeniatyt.command.impl.QuestionnaireCommand
 import com.jeniatyt.entity.Activity
 import com.jeniatyt.extension.getChatIdAsString
@@ -57,7 +58,11 @@ class QuestionSentHandler(
                     )
                 )
 
-                messageService.sendMessage(update.getChatIdAsString(), Questionnaire.question10)
+                messageService.sendMessageWithKeyboard(
+                    update.getChatIdAsString(),
+                    Button.ALL_BUTTON,
+                    Questionnaire.question10
+                )
             },
             {
                 log.error { "Сообщение не отправлено, так как не найдена анкета" }

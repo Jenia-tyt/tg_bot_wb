@@ -69,16 +69,16 @@ class QuestionEndHandler(
             Button.stepEnd(QuestionnaireCommand.Q8.getCommand()),
             Questionnaire.questionEnd,
             arrayOf(
-                qData?.q1 ?: "",
-                qData?.q2 ?: "",
-                qData?.q3 ?: "",
-                qData?.q4 ?: "",
-                qData?.q5 ?: "",
-                qData?.q6 ?: "",
-                qData?.q7 ?: "",
-                qData?.q8 ?: "",
-                qData?.q9 ?: "",
-                qData?.q10 ?: ""
+                qData?.q1 ?: "-",
+                qData?.q2 ?: "-",
+                qData?.q3 ?: "-",
+                qData?.q4 ?: "-",
+                qData?.q5 ?: "-",
+                qData?.q6 ?: "-",
+                qData?.q7 ?: "-",
+                qData?.q8 ?: "-",
+                qData?.q9 ?: "-",
+                qData?.q10 ?: "-"
             )
         )
     }
