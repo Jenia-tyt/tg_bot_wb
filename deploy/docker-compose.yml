@@ -3,6 +3,7 @@ services:
   postgres:
     image: 'postgres:18.0'
     container_name: postgres
+    restart: always
     environment:
       POSTGRES_DB: '${PG_BD}'
       POSTGRES_USER: '${PG_USER}'
