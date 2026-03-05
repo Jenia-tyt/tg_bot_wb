@@ -22,7 +22,13 @@ enum class MainCommand(private val command: String): Command {
     PRAISE_LOGISTICS("/praise_logistics"),
 
     /** Позвать менеджера */
-    CALL_MANAGER("/call_manager");
+    CALL_MANAGER("/call_manager"),
+
+    /** Скачать график поездок */
+    SCHEDULE_TRAVEL("/schedule_travel"),
+
+    /** Скачать договор */
+    CONTRACT("/contract");
 
     override fun getCommand(): String {
         return command
