@@ -8,7 +8,7 @@ import com.jeniatyt.extension.getChatIdAsString
 import com.jeniatyt.handler.Handler
 import com.jeniatyt.message.Questionnaire
 import com.jeniatyt.repository.ActionRepository
-import com.jeniatyt.service.MessageService
+import com.jeniatyt.service.message.MessageService
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update
 

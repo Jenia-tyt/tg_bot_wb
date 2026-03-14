@@ -11,7 +11,7 @@ import com.jeniatyt.handler.Handler
 import com.jeniatyt.message.Questionnaire
 import com.jeniatyt.repository.ActionRepository
 import com.jeniatyt.repository.QuestionnaireRepository
-import com.jeniatyt.service.MessageService
+import com.jeniatyt.service.message.MessageService
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update

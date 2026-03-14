@@ -26,6 +26,7 @@ val web = "3.4.0"
 val telegramSpring = "6.9.7.1"
 val microutils = "3.0.5"
 val hypersistence = "3.11.0"
+val thymeleaf = "4.1.0-M2"
 
 dependencies {
     //core
@@ -33,6 +34,8 @@ dependencies {
     implementation("org.telegram:telegrambots-spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator:${actuator}")
     implementation("org.springframework.boot:spring-boot-starter-web:${web}")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${thymeleaf}")
 
     //database
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

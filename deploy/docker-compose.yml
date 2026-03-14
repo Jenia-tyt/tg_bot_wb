@@ -43,6 +43,8 @@ services:
       CHAT_SUPPORT_ID: '${CHAT_SUPPORT_ID}'
     ports:
       - "9091:9091"
+    volumes:
+      - 'bot_data:/data'
     healthcheck:
       test: "curl --fail --silent http://tg-bot-wb-prod:9091/actuator/health | grep UP || exit 1"
       interval: 20s
@@ -68,4 +70,5 @@ networks:
 
 volumes:
   pgdata:
+  bot_data:
 

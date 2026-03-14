@@ -1,4 +1,4 @@
-package com.jeniatyt.service
+package com.jeniatyt.service.message
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
@@ -12,7 +12,7 @@ interface MessageService {
      * Отправляет главное меню бота, если обработчик сообщения не найден.
      * @param chatId идентификатор чата адресата
      */
-    fun sendErrorMessage(chatId: Long)
+    fun sendErrorMessage(chatId: String)
 
     /**
      * Отправляет шаблонизированное сообщение.

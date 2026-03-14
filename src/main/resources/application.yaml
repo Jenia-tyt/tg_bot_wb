@@ -18,6 +18,23 @@ spring:
       hibernate.globally_quoted_identifiers: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    check-template-location: true
+  web:
+    resources:
+      static-locations: classpath:/static/
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 2KB
+      location: ./temp
 
 telegram:
   name: ${TELEGRAM_NAME}
@@ -29,3 +46,6 @@ logging:
 
 chat:
   support_chat_id: ${CHAT_SUPPORT_ID:275626393}
+
+file:
+  store-path: ${FILE_STORE_PATH:./data}

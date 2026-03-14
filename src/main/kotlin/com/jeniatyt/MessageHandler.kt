@@ -1,11 +1,12 @@
 package com.jeniatyt
 
 import com.jeniatyt.extension.getChatId
+import com.jeniatyt.extension.getChatIdAsString
 import com.jeniatyt.extension.getMessageTextOrNull
 import com.jeniatyt.extension.getUserIdOrNull
 import com.jeniatyt.handler.Handler
 import com.jeniatyt.repository.ActionRepository
-import com.jeniatyt.service.MessageService
+import com.jeniatyt.service.message.MessageService
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -29,7 +30,11 @@ class MessageHandler(
 
         val action = actionRepository.findById(userId).orElse(null)
 
-        sortHandlers.firstOrNull { it.accept(command, userId, action) }?.handle(update, userId, action)
-            ?: messageService.sendErrorMessage(update.getChatId())
+        try {
+            sortHandlers.firstOrNull { it.accept(command, userId, action) }?.handle(update, userId, action)
+                ?: messageService.sendErrorMessage(update.getChatIdAsString())
+        } catch (e: Exception) {
+            messageService.sendErrorMessage(update.getChatIdAsString())
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.jeniatyt
 
+import com.jeniatyt.config.SecurityConfig
 import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Import
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.telegram.telegrambots.meta.TelegramBotsApi
@@ -15,12 +17,13 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
  * Основной класс приложения.
  *
  */
+@Import(SecurityConfig::class)
 @SpringBootApplication
 @EnableScheduling
 @ConfigurationPropertiesScan
 class TgWbBot(private val botApp: TelegramBotApi) {
-    private val log = KotlinLogging.logger {}
 
+    private val log = KotlinLogging.logger {}
 
     @EventListener(ApplicationReadyEvent::class)
     fun registerBot(event: ApplicationReadyEvent) {

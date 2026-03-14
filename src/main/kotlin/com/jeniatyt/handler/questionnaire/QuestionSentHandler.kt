@@ -9,7 +9,7 @@ import com.jeniatyt.message.Message
 import com.jeniatyt.message.Questionnaire
 import com.jeniatyt.properties.ChatProperties
 import com.jeniatyt.repository.QuestionnaireRepository
-import com.jeniatyt.service.MessageService
+import com.jeniatyt.service.message.MessageService
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update

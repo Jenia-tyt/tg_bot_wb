@@ -1,23 +1,26 @@
-package com.jeniatyt.service.impl
+package com.jeniatyt.service.message.impl
 
 import com.jeniatyt.ExecuteService
 import com.jeniatyt.button.impl.Button
 import com.jeniatyt.message.Message
-import com.jeniatyt.service.MessageService
+import com.jeniatyt.service.file.FileService
+import com.jeniatyt.service.message.MessageService
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.ParseMode
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
-import java.io.InputStream
 import java.text.MessageFormat
 
 @Service
-class MessageServiceImpl(private val executeService: ExecuteService) : MessageService {
+class MessageServiceImpl(
+    private val executeService: ExecuteService,
+    private val fileService: FileService
+) : MessageService {
 
-    override fun sendErrorMessage(chatId: Long) {
-        sendMessageWithKeyboard(chatId.toString(), Button.ALL_BUTTON, Message.ERROR)
+    override fun sendErrorMessage(chatId: String) {
+        sendMessageWithKeyboard(chatId, Button.ALL_BUTTON, Message.ERROR)
     }
 
     override fun sendMessage(chatId: String, template: String, args: Array<String>, transformation: (SendMessage) -> SendMessage) {
@@ -41,8 +44,13 @@ class MessageServiceImpl(private val executeService: ExecuteService) : MessageSe
     }
 
     override fun sendMessageDocument(chatId: String, fileName: String) {
-        val inputStream: InputStream? = MessageServiceImpl::class.java.getResourceAsStream("/price/${fileName}")
-        val inputFile = InputFile(inputStream, fileName)
+        val file = fileService.getFile(fileName)
+        if (file == null) {
+            sendMessage(chatId, Message.FILE_ERROR, arrayOf(fileName))
+            return
+        }
+
+        val inputFile = InputFile(file.inputStream(), file.name)
 
         val message = SendDocument()
         message.document = inputFile

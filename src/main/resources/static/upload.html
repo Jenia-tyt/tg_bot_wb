@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6 кнопок с человечком</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 200px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upload-btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .btn-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .btn-6 {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .upload-form {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .upload-form.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .upload-form h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .upload-form input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .upload-form input[type="file"]:hover {
+            border-color: #667eea;
+        }
+
+        .upload-form button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .upload-form button[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .upload-form button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+
+        .close-btn {
+            background: #dc3545 !important;
+            color: white !important;
+            margin-left: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .file-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .upload-progress {
+            margin-top: 15px;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress.active {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .server-response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .server-response.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .server-response.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .assistant:hover {
+            transform: scale(1.1);
+        }
+
+        .character {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffd1d1 0%, #ff9a9a 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .eye-left, .eye-right {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 30px;
+            animation: blink 4s infinite;
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% {
+                height: 12px;
+            }
+            95% {
+                height: 2px;
+            }
+        }
+
+        .eye-left {
+            left: 20px;
+        }
+
+        .eye-right {
+            right: 20px;
+        }
+
+        .mouth {
+            width: 30px;
+            height: 15px;
+            background: #ff6b6b;
+            border-radius: 0 0 30px 30px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+        }
+
+        .assistant.speaking .mouth {
+            height: 20px;
+            border-radius: 30px 30px 0 0;
+            background: #ff8787;
+        }
+
+        .thought-bubble {
+            position: absolute;
+            top: -80px;
+            right: 0;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 30px 30px 0 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            color: #333;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border: 2px solid #ff9a9a;
+        }
+
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 20px;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        .assistant.speaking .thought-bubble {
+            opacity: 1;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .greeting {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffd1d1;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #333;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .assistant:hover .greeting {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<h1>📁 Загрузка файлов с помощником</h1>
+
+<div class="buttons-container">
+    <button class="upload-btn btn-1" onclick="showUploadForm(1)">Договор</button>
+    <button class="upload-btn btn-2" onclick="showUploadForm(2)">Расписание поездок OZON</button>
+    <button class="upload-btn btn-3" onclick="showUploadForm(3)">Расписание поездок WB</button>
+    <button class="upload-btn btn-4" onclick="showUploadForm(4)">Прайс логистика</button>
+    <button class="upload-btn btn-5" onclick="showUploadForm(5)">Прайс хранение PDF</button>
+    <button class="upload-btn btn-6" onclick="showUploadForm(6)">Прайс хранение xlsx</button>
+</div>
+
+<div id="uploadForm" class="upload-form">
+    <h2 id="formTitle">Загрузка файла</h2>
+    <form id="fileUploadForm">
+        <input type="file" id="fileInput" name="file" required>
+        <div class="button-group">
+            <button type="submit">📤 Загрузить файл</button>
+            <button type="button" class="close-btn" onclick="hideUploadForm()">✕ Закрыть</button>
+        </div>
+    </form>
+
+    <div class="upload-progress" id="uploadProgress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="serverResponse" class="server-response"></div>
+
+    <div id="fileInfo" class="file-info">
+        <h3>Информация о файле:</h3>
+        <p id="fileName"></p>
+        <p id="fileSize"></p>
+        <p id="fileType"></p>
+    </div>
+</div>
+
+<!-- Человечек-помощник -->
+<div class="assistant" id="assistant" onclick="assistantGreeting()">
+    <div class="character">
+        <div class="eye-left"></div>
+        <div class="eye-right"></div>
+        <div class="mouth"></div>
+    </div>
+    <div class="thought-bubble" id="thoughtBubble">
+        Привет! 👋
+    </div>
+    <div class="greeting">
+        Нажми на меня!
+    </div>
+</div>
+
+<script>
+    let currentButton = 1;
+    const API_URL = 'http://5.42.107.221:9091'; // Замените на ваш URL сервера
+
+    const phrases = {
+        greeting: [
+            "Салам алейкум! Когда пятница? Пора в отрыв! 👋",
+            "Камарджоба! Что будем загружать? 😊",
+            "Шало́м православный! 🐾"
+        ],
+        buttonClick: [
+            "О, кнопка {number}! Отличный выбор! 🎯",
+            "Кнопка {number}? Сейчас всё организуем! ⚡",
+            "Загружаем через кнопку {number}? Понял! ✅",
+            "Кнопка {number} активирована! 🚀",
+            "Хороший выбор! Кнопка {number} ждёт файл! 📂"
+        ],
+        fileSelected: [
+            "Отличный файл! {name} - звучит интересно! 📄",
+            "Ого, {name}! Покажи, что там! 👀",
+            "Файл выбран! Размер {size} - норм! 💾",
+            "Классный файлик! Загружаем? 👍",
+            "{name}? Отличный выбор для кнопки {button}! ✨"
+        ],
+        uploadComplete: [
+            "Ура! Файл загружен! 🎉",
+            "Отлично! Всё получилось! 🌟",
+            "Файл на месте! Что дальше? 🤔",
+            "Загрузка завершена! Молодец! 🏆"
+        ],
+        uploadError: [
+            "Ой! Что-то пошло не так! 😱",
+            "Ошибка загрузки! Попробуй ещё раз! 🔄",
+            "Не получилось... Может другой файл? 😕"
+        ],
+        clickAssist: [
+            "Иди на хуй! 😄",
+            "На себя нажми! 🤗",
+            "Отебись 💁",
+            "Не хуй заняться? 😉",
+            "Иди Санька потрогай 🦸"
+        ]
+    };
+
+    function showUploadForm(buttonNumber) {
+        currentButton = buttonNumber;
+        const form = document.getElementById('uploadForm');
+        const title = document.getElementById('formTitle');
+
+        title.textContent = `Загрузка файла (Кнопка ${buttonNumber} - ${getButtonText(buttonNumber)})`;
+        form.classList.add('active');
+
+        showThought(getRandomPhrase('buttonClick').replace('{number}', buttonNumber));
+
+        document.getElementById('fileInfo').classList.remove('show');
+        document.getElementById('serverResponse').classList.remove('success', 'error');
+        document.getElementById('fileUploadForm').reset();
+    }
+
+    function getButtonText(buttonNumber) {
+        const buttons = {
+            1: 'Договор',
+            2: 'Расписание поездок OZON',
+            3: 'Расписание поездок WB',
+            4: 'Прайс логистика',
+            5: 'Прайс хранение PDF',
+            6: 'Прайс хранение xlsx'
+        };
+        return buttons[buttonNumber] || '';
+    }
+
+    function hideUploadForm() {
+        document.getElementById('uploadForm').classList.remove('active');
+        document.getElementById('fileInfo').classList.remove('show');
+        document.getElementById('serverResponse').classList.remove('success', 'error');
+        document.getElementById('uploadProgress').classList.remove('active');
+    }
+
+    // Обработчик отправки формы
+    document.getElementById('fileUploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showThought('Выбери файл сначала! 😉');
+            return;
+        }
+
+        // Показываем информацию о файле
+        document.getElementById('fileName').textContent = `📄 Имя файла: ${file.name}`;
+        document.getElementById('fileSize').textContent = `📊 Размер: ${formatFileSize(file.size)}`;
+        document.getElementById('fileType').textContent = `🏷️ Тип: ${file.type || 'Не определен'}`;
+        document.getElementById('fileInfo').classList.add('show');
+
+        // Показываем прогресс
+        const progress = document.getElementById('uploadProgress');
+        const progressBar = document.getElementById('progressBar');
+        progress.classList.add('active');
+        progressBar.style.width = '0%';
+
+        // Создаем FormData
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('buttonId', currentButton);
+        formData.append('buttonName', getButtonText(currentButton));
+
+        try {
+            // Имитация прогресса
+            let progressValue = 0;
+            const interval = setInterval(() => {
+                progressValue += 10;
+                if (progressValue <= 90) {
+                    progressBar.style.width = progressValue + '%';
+                }
+            }, 100);
+
+            // Отправляем файл на сервер
+            const response = await fetch(`${API_URL}/api/upload/${currentButton}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            clearInterval(interval);
+
+            if (response.ok) {
+                progressBar.style.width = '100%';
+
+                const result = await response.json();
+
+                // Показываем успешный ответ
+                showServerResponse('success', `✅ Файл успешно загружен! ID: ${result.fileId || 'получен'}`);
+                showThought(getRandomPhrase('uploadComplete'));
+
+                console.log('Файл загружен:', result);
+            } else {
+                const error = await response.text();
+                throw new Error(error || 'Ошибка загрузки');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            showServerResponse('error', `❌ Ошибка: ${error.message}`);
+            showThought(getRandomPhrase('uploadError'));
+        } finally {
+            setTimeout(() => {
+                progress.classList.remove('active');
+                progressBar.style.width = '0%';
+            }, 1000);
+        }
+    });
+
+    function showServerResponse(type, message) {
+        const responseDiv = document.getElementById('serverResponse');
+        responseDiv.className = `server-response ${type}`;
+        responseDiv.textContent = message;
+    }
+
+    function assistantGreeting() {
+        showThought(getRandomPhrase('clickAssist'));
+
+        const assistant = document.getElementById('assistant');
+        assistant.classList.add('speaking');
+        setTimeout(() => {
+            assistant.classList.remove('speaking');
+        }, 2000);
+    }
+
+    function showThought(text) {
+        const bubble = document.getElementById('thoughtBubble');
+        const assistant = document.getElementById('assistant');
+
+        bubble.textContent = text;
+        assistant.classList.add('speaking');
+
+        setTimeout(() => {
+            assistant.classList.remove('speaking');
+        }, 3000);
+    }
+
+    function getRandomPhrase(type) {
+        const phrasesArray = phrases[type];
+        return phrasesArray[Math.floor(Math.random() * phrasesArray.length)];
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Байт';
+
+        const k = 1024;
+        const sizes = ['Байт', 'КБ', 'МБ', 'ГБ'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Приветствие при загрузке страницы
+    window.onload = function () {
+        setTimeout(() => {
+            showThought(getRandomPhrase('greeting'));
+        }, 1000);
+    };
+
+    // Закрытие формы по клику вне её области
+    document.addEventListener('click', function (event) {
+        const form = document.getElementById('uploadForm');
+        const buttons = document.querySelectorAll('.upload-btn');
+        const assistant = document.getElementById('assistant');
+
+        if (!form.contains(event.target) &&
+            !Array.from(buttons).some(btn => btn.contains(event.target)) &&
+            !assistant.contains(event.target)) {
+            hideUploadForm();
+        }
+    });
+</script>
+</body>
+</html>
