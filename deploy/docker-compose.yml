@@ -1,8 +1,6 @@
-version: '3.9'
 services:
   postgres:
     image: 'postgres:18.0'
-    container_name: postgres
     restart: always
     environment:
       POSTGRES_DB: '${PG_BD}'
@@ -28,7 +26,6 @@ services:
 
   tg-bot-wb-prod:
     image: ${DOCKER_IMAGE_NAME}:latest
-    container_name: ${DOCKER_IMAGE_NAME}
     restart: always
     depends_on:
       - postgres
