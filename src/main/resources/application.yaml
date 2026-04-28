@@ -49,3 +49,4 @@ chat:
 
 file:
   store-path: ${FILE_STORE_PATH:./data}
+
