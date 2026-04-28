@@ -89,7 +89,7 @@ jobs:
           echo "ПРОВЕРЯЕМ ЛОГИ С ИНТЕРВАЛОМ В 15 сек ЕСЛИ УСПЕХА НЕТ В ТЕЧЕНИИ 1 минуты КИДАЕМ ОШИБКУ"
           i=0
           while [[ $i -le 3 ]]; do
-          RESULT=$(docker logs '${{ vars.DOCKER_IMAGE_NAME }}')
+          RESULT=$(docker compose logs)
           echo "${RESULT}"
           if echo "${RESULT}" | grep -q "THE BOT HAS STARTED"; then
           echo "❤️❤️ВСЕ ПРОШЛО УСПЕШНО❤️❤️"
