@@ -17,8 +17,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    networks:
-      - wb_prod
     logging:
       options:
         max-file: "2"
@@ -54,16 +52,10 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    networks:
-      - wb_prod
     logging:
       options:
         max-file: "2"
         max-size: "10m"
-
-networks:
-  wb_prod:
-    name: wb_prod
 
 volumes:
   pgdata:
